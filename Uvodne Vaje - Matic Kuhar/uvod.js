@@ -1,0 +1,1 @@
+var oseba = "Janez Novak";

@@ -1,0 +1,1 @@
+const oseba = "Janez Novak";
