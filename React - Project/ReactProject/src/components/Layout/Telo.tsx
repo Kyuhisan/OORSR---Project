@@ -1,25 +1,17 @@
-import { getEkipa } from "../Ekipa/Ekipa";
-import Igralec from "../Oseba/Igralec";
+import {
+  DisplayDirektor,
+  DisplayIgralci,
+  DisplayTrener,
+  DisplayEkipa,
+} from "../Ekipa/Ekipa";
 
 function Telo() {
   return (
-    <div>
-      {getEkipa.props.ime} {getEkipa.props.letoUstanovitve}
-      {getEkipa.props.direktor()}
-      {getEkipa.props.trener()}
-      {getEkipa.props.igralci.map((player, index) => (
-        <Igralec
-          visina={0}
-          teza={0}
-          poskodovan={false}
-          id={0}
-          ime={player.ime}
-          priimek={""}
-          letoRojstva={0}
-          key={index}
-          {...Igralec}
-        />
-      ))}
+    <div className="container">
+      <DisplayEkipa />
+      <DisplayDirektor />
+      <DisplayTrener />
+      <DisplayIgralci />
     </div>
   );
 }

@@ -5,29 +5,25 @@ export interface IFunkcionarProps extends IOsebaProps {
   veljavnost: number;
 }
 
-export const getDirektor = () => (
-  <Funkcionar
-    id={1}
-    ime="direktor"
-    priimek="direktor"
-    vloga="direktor"
-    veljavnost={31}
-    letoRojstva={1988}
-    krajRojstva="Slovenj Gradec"
-  />
-);
+export const setDirektor = {
+  id: 1,
+  ime: "direktor",
+  priimek: "direktor",
+  vloga: "direktor",
+  veljavnost: 31,
+  letoRojstva: 1988,
+  krajRojstva: "Slovenj Gradec",
+};
 
-export const getTrener = () => (
-  <Funkcionar
-    id={2}
-    ime="trener"
-    priimek="trener"
-    vloga="trener"
-    veljavnost={31}
-    letoRojstva={1977}
-    krajRojstva="Maribor"
-  />
-);
+export const setTrener = {
+  id: 2,
+  ime: "trener",
+  priimek: "trener",
+  vloga: "trener",
+  veljavnost: 21,
+  letoRojstva: 1958,
+  krajRojstva: "Maribor",
+};
 
 function Funkcionar(props: IFunkcionarProps) {
   return (

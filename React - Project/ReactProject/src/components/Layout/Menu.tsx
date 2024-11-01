@@ -1,9 +1,9 @@
-import { getEkipa } from "../Ekipa/Ekipa";
+import { setEkipa } from "../Ekipa/Ekipa";
 
 function Menu() {
   return (
     <header className="container text-center">
-      <h1>{getEkipa.props.ime}</h1>
+      <h1>{setEkipa.props.ime}</h1>
     </header>
   );
 }

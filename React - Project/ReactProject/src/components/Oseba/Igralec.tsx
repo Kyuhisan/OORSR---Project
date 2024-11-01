@@ -6,17 +6,15 @@ export interface IIgralecProps extends IOsebaProps {
   poskodovan: boolean;
 }
 
-export const getIgralec = () => (
-  <Igralec
-    id={0}
-    ime="Matic"
-    priimek="Kuhar"
-    teza={100}
-    visina={180}
-    letoRojstva={1999}
-    poskodovan
-  />
-);
+export const setIgralec = {
+  id: 0,
+  ime: "Matic",
+  priimek: "Kuhar",
+  teza: 100,
+  visina: 180,
+  letoRojstva: 1999,
+  poskodovan: true,
+};
 
 function Igralec(props: IIgralecProps) {
   return (
