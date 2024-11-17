@@ -1,11 +1,62 @@
-import Igralec, { IIgralecProps } from "../Oseba/Igralec";
+import Igralec, {
+  IIgralecProps,
+  setIgralec21,
+  setIgralec22,
+  setIgralec23,
+  setIgralec24,
+  setIgralec25,
+  setIgralec26,
+  setIgralec27,
+  setIgralec28,
+  setIgralec29,
+  setIgralec30,
+  setIgralec31,
+  setIgralec32,
+  setIgralec33,
+  setIgralec34,
+  setIgralec35,
+  setIgralec36,
+  setIgralec37,
+  setIgralec38,
+  setIgralec39,
+  setIgralec40,
+} from "../Oseba/Igralec";
 import Funkcionar, { IFunkcionarProps } from "../Oseba/Funkcionar";
-import { setDirektor, setTrener } from "../Oseba/Funkcionar";
-import { setIgralec } from "../Oseba/Igralec";
+import {
+  setDirektor,
+  setTrener,
+  setDirektor2,
+  setTrener2,
+} from "../Oseba/Funkcionar";
+import {
+  setIgralec1,
+  setIgralec2,
+  setIgralec3,
+  setIgralec4,
+  setIgralec5,
+  setIgralec6,
+  setIgralec7,
+  setIgralec8,
+  setIgralec9,
+  setIgralec10,
+  setIgralec11,
+  setIgralec12,
+  setIgralec13,
+  setIgralec14,
+  setIgralec15,
+  setIgralec16,
+  setIgralec17,
+  setIgralec18,
+  setIgralec19,
+  setIgralec20,
+} from "../Oseba/Igralec";
+
 import Info from "../Conditionals/Info";
 import Opozorilo from "../Conditionals/Opozorilo";
+import SeznamEkip from "./seznamEkip";
+import { useParams } from "react-router";
 
-interface IEkipaProps {
+export interface IEkipaProps {
   ime: string;
   letoUstanovitve: number;
   direktor: IFunkcionarProps;
@@ -13,32 +64,79 @@ interface IEkipaProps {
   igralci: IIgralecProps[];
 }
 
-export const setEkipa = (
+export const getEkipa = (
   <Ekipa
     ime="Olimpija"
     letoUstanovitve={1977}
     direktor={setDirektor}
     trener={setTrener}
-    // igralci={[]}
-    igralci={[setIgralec, setIgralec, setIgralec, setIgralec, setIgralec]}
-    // igralci={[
-    //   setIgralec,
-    //   setIgralec,
-    //   setIgralec,
-    //   setIgralec,
-    //   setIgralec,
-    //   setIgralec,
-    //   setIgralec,
-    //   setIgralec,
-    //   setIgralec,
-    //   setIgralec,
-    //   setIgralec,
-    //   setIgralec,
-    // ]}
+    igralci={[
+      setIgralec1,
+      setIgralec2,
+      setIgralec3,
+      setIgralec4,
+      setIgralec5,
+      setIgralec6,
+      setIgralec7,
+      setIgralec8,
+      setIgralec9,
+      setIgralec10,
+      setIgralec11,
+      setIgralec12,
+      setIgralec13,
+      setIgralec14,
+      setIgralec15,
+      setIgralec16,
+      setIgralec17,
+      setIgralec18,
+      setIgralec19,
+      setIgralec20,
+    ]}
   />
 );
 
+export const getEkipa2 = (
+  <Ekipa
+    ime="Maribor"
+    letoUstanovitve={1960}
+    direktor={setDirektor2}
+    trener={setTrener2}
+    igralci={[
+      setIgralec21,
+      setIgralec22,
+      setIgralec23,
+      setIgralec24,
+      setIgralec25,
+      setIgralec26,
+      setIgralec27,
+      setIgralec28,
+      setIgralec29,
+      setIgralec30,
+      setIgralec31,
+      setIgralec32,
+      setIgralec33,
+      setIgralec34,
+      setIgralec35,
+      setIgralec36,
+      setIgralec37,
+      setIgralec38,
+      setIgralec39,
+      setIgralec40,
+    ]}
+  />
+);
+
+export const seznamEkip = [getEkipa.props, getEkipa2.props];
+// const ekipaId = 0;
+
 export function DisplayEkipa() {
+  const { idEkipe } = useParams<{ idEkipe: string }>();
+  const ekipaId = parseInt(idEkipe || "0", 10);
+
+  if (!seznamEkip[ekipaId]) {
+    return <p>Error: Team not found!</p>;
+  }
+
   return (
     <>
       <h4> Podatki o ekipi:</h4>
@@ -51,8 +149,8 @@ export function DisplayEkipa() {
         </thead>
         <tbody>
           <tr>
-            <td>{setEkipa.props.ime}</td>
-            <td>{setEkipa.props.letoUstanovitve}</td>
+            <td>{seznamEkip[ekipaId]?.ime}</td>
+            <td>{seznamEkip[ekipaId]?.letoUstanovitve}</td>
           </tr>
         </tbody>
       </table>
@@ -61,6 +159,13 @@ export function DisplayEkipa() {
 }
 
 export function DisplayDirektor() {
+  const { idEkipe } = useParams<{ idEkipe: string }>();
+  const ekipaId = parseInt(idEkipe || "0", 10);
+
+  if (!seznamEkip[ekipaId]) {
+    return <p>Error: Team not found!</p>;
+  }
+
   return (
     <>
       <h5> Direktor:</h5>
@@ -78,13 +183,13 @@ export function DisplayDirektor() {
         </thead>
         <tbody>
           <tr>
-            <td>{setEkipa.props.direktor.id}</td>
-            <td>{setEkipa.props.direktor.ime}</td>
-            <td>{setEkipa.props.direktor.priimek}</td>
-            <td>{setEkipa.props.direktor.vloga}</td>
-            <td>{setEkipa.props.direktor.veljavnost}</td>
-            <td>{setEkipa.props.direktor.letoRojstva}</td>
-            <td>{setEkipa.props.direktor.krajRojstva}</td>
+            <td>{seznamEkip[ekipaId]?.direktor.id}</td>
+            <td>{seznamEkip[ekipaId]?.direktor.ime}</td>
+            <td>{seznamEkip[ekipaId]?.direktor.priimek}</td>
+            <td>{seznamEkip[ekipaId]?.direktor.vloga}</td>
+            <td>{String(seznamEkip[ekipaId]?.direktor.veljavnost)}</td>
+            <td>{seznamEkip[ekipaId]?.direktor.letoRojstva}</td>
+            <td>{seznamEkip[ekipaId]?.direktor.krajRojstva}</td>
           </tr>
         </tbody>
       </table>
@@ -93,6 +198,13 @@ export function DisplayDirektor() {
 }
 
 export function DisplayTrener() {
+  const { idEkipe } = useParams<{ idEkipe: string }>();
+  const ekipaId = parseInt(idEkipe || "0", 10);
+
+  if (!seznamEkip[ekipaId]) {
+    return <p>Error: Team not found!</p>;
+  }
+
   return (
     <>
       <h5> Trener:</h5>
@@ -110,18 +222,18 @@ export function DisplayTrener() {
         </thead>
         <tbody>
           <tr>
-            <td>{setEkipa.props.trener.id}</td>
-            <td>{setEkipa.props.trener.ime}</td>
-            <td>{setEkipa.props.trener.priimek}</td>
-            <td>{setEkipa.props.trener.vloga}</td>
-            <td>{setEkipa.props.trener.veljavnost}</td>
-            <td>{setEkipa.props.trener.letoRojstva}</td>
-            <td>{setEkipa.props.trener.krajRojstva}</td>
+            <td>{seznamEkip[ekipaId]?.trener.id}</td>
+            <td>{seznamEkip[ekipaId]?.trener.ime}</td>
+            <td>{seznamEkip[ekipaId]?.trener.priimek}</td>
+            <td>{seznamEkip[ekipaId]?.trener.vloga}</td>
+            <td>{String(seznamEkip[ekipaId]?.trener.veljavnost)}</td>
+            <td>{seznamEkip[ekipaId]?.trener.letoRojstva}</td>
+            <td>{seznamEkip[ekipaId]?.trener.krajRojstva}</td>
           </tr>
         </tbody>
       </table>
       {/* <ul>
-        {Object.entries(setEkipa.props.trener).map(([key, value]) => (
+        {Object.entries(seznamEkip[ekipaId]?.trener).map(([key, value]) => (
           <li key={key}>
             <strong>{key}:</strong> {String(value)}
           </li>
@@ -132,6 +244,13 @@ export function DisplayTrener() {
 }
 
 export function DisplayIgralci() {
+  const { idEkipe } = useParams<{ idEkipe: string }>();
+  const ekipaId = parseInt(idEkipe || "0", 10);
+
+  if (!seznamEkip[ekipaId]) {
+    return <p>Error: Team not found!</p>;
+  }
+
   return (
     <>
       <h5>Igralci:</h5>
@@ -151,17 +270,19 @@ export function DisplayIgralci() {
           </tr>
         </thead>
         <tbody>
-          {setEkipa.props.igralci.map((item: IIgralecProps, index: number) => (
-            <tr key={item.id || index}>
-              <td>{item.id}</td>
-              <td>{item.ime}</td>
-              <td>{item.priimek}</td>
-              <td>{item.teza}</td>
-              <td>{item.visina}</td>
-              <td>{item.letoRojstva}</td>
-              <td>{String(item.poskodovan)}</td>
-            </tr>
-          ))}
+          {seznamEkip[ekipaId]?.igralci.map(
+            (item: IIgralecProps, index: number) => (
+              <tr key={item.id || index}>
+                <td>{item.id}</td>
+                <td>{item.ime}</td>
+                <td>{item.priimek}</td>
+                <td>{item.teza}</td>
+                <td>{item.visina}</td>
+                <td>{item.letoRojstva}</td>
+                <td>{String(item.poskodovan)}</td>
+              </tr>
+            )
+          )}
         </tbody>
       </table>
     </>

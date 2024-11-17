@@ -3,6 +3,7 @@ import "./App.css";
 import Menu from "./components/Layout/Menu";
 import Telo from "./components/Layout/Telo";
 import Noga from "./components/Layout/Noga";
+import SeznamEkip from "./components/Ekipa/seznamEkip";
 
 export default function App() {
   return (
@@ -12,7 +13,7 @@ export default function App() {
           <Menu />
         </div>
         <div id="Telo">
-          <Telo />
+          <SeznamEkip />
         </div>
         <div id="Noga">
           <Noga />

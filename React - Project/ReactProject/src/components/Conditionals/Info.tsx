@@ -1,9 +1,9 @@
-import { setEkipa } from "../Ekipa/Ekipa";
+import { getEkipa } from "../Ekipa/Ekipa";
 
 export function Info() {
   return (
     <div>
-      {setEkipa.props.igralci.length >= 11 && (
+      {getEkipa.props.igralci.length >= 11 && (
         <p className="text-success">Ekipa ima dovolj igralcev.</p>
       )}
     </div>
