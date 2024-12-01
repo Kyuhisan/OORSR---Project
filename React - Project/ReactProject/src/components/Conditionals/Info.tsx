@@ -1,13 +1,19 @@
-import { getEkipa } from "../Ekipa/Ekipa";
+import React from "react";
 
-export function Info() {
-  return (
-    <div>
-      {getEkipa.props.igralci.length >= 11 && (
-        <p className="text-success">Ekipa ima dovolj igralcev.</p>
-      )}
-    </div>
-  );
+interface InfoProps {
+  igralciCount: number;
 }
+
+const Info: React.FC<InfoProps> = ({ igralciCount }) => {
+  return (
+    <>
+      {igralciCount >= 11 && (
+        <div className="info text-success">
+          <p>Ekipa ima dovolj igralcev.</p>
+        </div>
+      )}
+    </>
+  );
+};
 
 export default Info;

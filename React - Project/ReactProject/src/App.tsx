@@ -1,9 +1,8 @@
 import "./App.css";
 
 import Menu from "./components/Layout/Menu";
-import Telo from "./components/Layout/Telo";
 import Noga from "./components/Layout/Noga";
-import SeznamEkip from "./components/Ekipa/seznamEkip";
+import SeznamEkip from "./components/Ekipa/SeznamEkip";
 
 export default function App() {
   return (

@@ -1,13 +1,19 @@
-import { getEkipa } from "../Ekipa/Ekipa";
+import React from "react";
 
-export function Opozorilo() {
-  return (
-    <div>
-      {getEkipa.props.igralci.length < 11 && (
-        <p className="text-danger">Ekipa nima dovolj igralcev.</p>
-      )}
-    </div>
-  );
+interface OpozoriloProps {
+  igralciCount: number;
 }
+
+const Opozorilo: React.FC<OpozoriloProps> = ({ igralciCount }) => {
+  return (
+    <>
+      {igralciCount < 11 && (
+        <div className="opozorilo text-danger">
+          <p>Opozorilo: Ekipa ima premalo igralcev!</p>
+        </div>
+      )}
+    </>
+  );
+};
 
 export default Opozorilo;

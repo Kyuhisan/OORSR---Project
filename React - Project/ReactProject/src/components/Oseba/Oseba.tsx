@@ -1,4 +1,4 @@
-export interface IOsebaProps {
+export interface OsebaProps {
   id: number;
   ime: string;
   priimek: string;
@@ -6,7 +6,7 @@ export interface IOsebaProps {
   krajRojstva?: string;
 }
 
-function Oseba(props: IOsebaProps) {
+function Oseba(props: OsebaProps) {
   return (
     <div>
       {props.id} {props.ime} {props.priimek} {props.letoRojstva}

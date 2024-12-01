@@ -1,29 +1,39 @@
-import React from "react";
-
-import Ekipa, {
-  DisplayDirektor,
-  DisplayIgralci,
-  DisplayTrener,
-  DisplayEkipa,
-  getEkipa,
-  seznamEkip,
-  IEkipaProps,
-} from "../Ekipa/Ekipa";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import DodajEkipo from "../Ekipa/DodajEkipo";
+
+export interface IEkipaProps {
+  id: number;
+  ime: string;
+  letoUstanovitve: number;
+}
 
 function Telo() {
-  const [seznamIgralcev, setIgralci] = React.useState({});
+  const [ekipe, setEkipe] = useState<IEkipaProps[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-  const getIgralci: () => void = () => {
-    const igralci = getEkipa.props.igralci;
-    setIgralci(igralci);
+  const fetchEkipe = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/ekipe");
+      if (!response.ok) {
+        throw new Error("Failed to fetch teams");
+      }
+      const data = await response.json();
+      setEkipe(data);
+    } catch {}
   };
 
-  React.useEffect(() => {
-    getIgralci();
-  });
+  useEffect(() => {
+    fetchEkipe();
+  }, []);
 
-  const ekipe = seznamEkip;
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+
+  if (ekipe.length === 0) {
+    return <p>Loading teams...</p>;
+  }
 
   return (
     <div className="container">
@@ -35,15 +45,15 @@ function Telo() {
           </tr>
         </thead>
         <tbody>
-          {ekipe.map((item: IEkipaProps, index: number) => (
-            <tr key={index}>
+          {ekipe.map((item) => (
+            <tr key={item.id}>
               <td>
-                <Link to={`/ekipa/${index}`} className="no-style">
+                <Link to={`/ekipa/${item.id}`} className="no-style">
                   {item.ime}
                 </Link>
               </td>
               <td>
-                <Link to={`/ekipa/${index}`} className="no-style">
+                <Link to={`/ekipa/${item.id}`} className="no-style">
                   {item.letoUstanovitve}
                 </Link>
               </td>
@@ -51,12 +61,9 @@ function Telo() {
           ))}
         </tbody>
       </table>
-
-      {/* <div>{JSON.stringify(seznamIgralcev)}</div> */}
-      {/* <DisplayEkipa />
-      <DisplayDirektor />
-      <DisplayTrener />
-      <DisplayIgralci /> */}
+      <Link to={`/dodaj-ekipo`} className="no-style">
+        <DodajEkipo />
+      </Link>
     </div>
   );
 }

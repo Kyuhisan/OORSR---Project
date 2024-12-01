@@ -1,12 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Telo from "../Layout/Telo";
-import Ekipa, {
-  DisplayDirektor,
-  DisplayEkipa,
-  DisplayIgralci,
-  DisplayTrener,
-} from "./Ekipa";
-import Menu from "../Layout/Menu";
+import { DisplayEkipa } from "./Ekipa";
 
 export function SeznamEkip() {
   return (
@@ -18,11 +12,7 @@ export function SeznamEkip() {
             path="/ekipa/:idEkipe"
             element={
               <div className="container">
-                <Menu />
                 <DisplayEkipa />
-                <DisplayDirektor />
-                <DisplayTrener />
-                <DisplayIgralci />
               </div>
             }
           />
