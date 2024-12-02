@@ -1,8 +1,0 @@
-+ Komponenta Menu, ki vsebuje ime ekipe v komponenti <h1>. 
-Komponenta Telo, ki vsebuje izpis podatkov o ekipi in vseh igralcev, ki so ločene podkomponente (implementirane kot polje komponent). Namig: uporaba map
-Komponenta Igralec vsebuje izpis podatkov igralca. Podatke posameznega igralca si izmislite (vsaj en atribut iz naslednjih tipov: boolean, string, number). Vsi igralci imajo lahko zaenkrat enake podatke. 
-Komponenta Opozorilo, ki se prikaže ko je število igralcev manjše od 11. Komponenta ustrezno obvesti, da ima ekipa premalo igralcev. Namig: uporaba logičnega operatorja AND
-Komponenta Info, ki se prikaže ko je število igralcev večje ali enako 11. Komponenta obvesti, da ima ekipa dovolj igralcev.
-+ Komponenta Noga, ki vsebuje podatke o avtorju spletne strani. 
-
-Vse tri komponente dodajte na glavno aplikacijo in jih tudi oblikujte s pomočjo CSS (noga naj bo zmeraj na dnu strani, menu na vrhu, igralci pa naj bodo oblikovani po želji). Podatki so lahko izmišljeni in zaenkrat še ne implementirajo logike s pomočjo funkcij iz prve naloge. 
