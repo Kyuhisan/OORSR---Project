@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { FunkcionarProps } from "../../models/Funkcionar";
 import { IgralecProps } from "../../models/Igralec";
-import Oseba, { OsebaProps } from "../../models/Oseba";
+import { OsebaProps } from "../../models/Oseba";
+import { EkipaProps } from "../../models/Ekipa";
+import { useParams } from "react-router-dom";
 
 type OsebaType = "Igralec" | "Direktor" | "Trener";
 
@@ -10,10 +12,13 @@ interface State {
 }
 
 interface DodajOseboProps {
-  seznamIgralcev: IgralecProps[];
+  seznamEkip: EkipaProps[];
 }
 
-const DodajOsebo: React.FC<DodajOseboProps> = ({ seznamIgralcev }) => {
+const DodajOsebo: React.FC<DodajOseboProps> = ({ seznamEkip }) => {
+  const { idEkipe } = useParams<{ idEkipe: string }>();
+  const ekipaId = parseInt(idEkipe || "0", 10);
+
   const [osebaType, setOsebaType] = useState<OsebaType>("Igralec");
   const [osebaData, setOsebaData] = useState<
     OsebaProps & Partial<IgralecProps & FunkcionarProps>
@@ -26,14 +31,14 @@ const DodajOsebo: React.FC<DodajOseboProps> = ({ seznamIgralcev }) => {
   });
 
   const [osebe, setOsebe] = useState<State["osebe"]>(
-    () => JSON.parse(localStorage.getItem("osebe") || "[]") || seznamIgralcev
+    () => seznamEkip[ekipaId].igralci
   );
+
   const [playerCount, setPlayerCount] = useState(0);
 
   useEffect(() => {
     const count = osebe.filter((o) => "visina" in o && "teza" in o).length;
     setPlayerCount(count);
-    localStorage.setItem("osebe", JSON.stringify(osebe));
   }, [osebe]);
 
   const handleInputChange = (
@@ -50,6 +55,7 @@ const DodajOsebo: React.FC<DodajOseboProps> = ({ seznamIgralcev }) => {
     e.preventDefault();
 
     let newOseba: IgralecProps | FunkcionarProps;
+
     if (osebaType === "Igralec") {
       newOseba = {
         ...(osebaData as IgralecProps),
@@ -78,7 +84,7 @@ const DodajOsebo: React.FC<DodajOseboProps> = ({ seznamIgralcev }) => {
     <div className="container bg-dark text-light rounded pt-4">
       <h1 className="text-center">Dodaj Osebo</h1>
       <div className="text-center mb-3">
-        <h2>Število igralcev: {playerCount}</h2>
+        <h4 className="text-center">Število Igralcev {playerCount}</h4>
       </div>
       <div className="d-flex justify-content-center">
         <div className="btn-group">
@@ -279,14 +285,6 @@ const DodajOsebo: React.FC<DodajOseboProps> = ({ seznamIgralcev }) => {
           Dodaj
         </button>
       </form>
-      <h2 className="text-center mt-5">Seznam Oseb</h2>
-      {osebe.map((o, index) => (
-        <div key={index} className="card mt-2">
-          <div className="card-body">
-            <Oseba {...o} />
-          </div>
-        </div>
-      ))}
     </div>
   );
 };

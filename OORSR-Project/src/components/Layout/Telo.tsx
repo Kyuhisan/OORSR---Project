@@ -1,8 +1,7 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import SeznamEkip from "../DataDisplay/SeznamEkip";
 import { EkipaProps } from "../../models/Ekipa";
-import { IgralecProps } from "../../models/Igralec";
 import PrikazEkipe from "../DataDisplay/PrikazEkipe";
 import DodajOsebo from "../Forms/DodajOsebo";
 import DodajEkipo from "../Forms/DodajEkipo";
@@ -12,22 +11,24 @@ interface TeloProps {
 }
 
 const Telo: React.FC<TeloProps> = ({ seznamEkip }) => {
-  const [igralci, setIgralci] = React.useState<IgralecProps[]>([]);
-
-  React.useEffect(() => {
-    if (seznamEkip.length > 0) {
-      setIgralci(seznamEkip[1].igralci);
-    }
-  }, [seznamEkip]);
-
   return (
     <div className="row px-4">
       <div className="col-3">
         <Routes>
-          <Route path="/" element={<DodajEkipo />} />
+          <Route
+            path="/"
+            element={
+              <div className="container bg-dark text-light rounded p-4">
+                <Link to={`/dodajEkipo`} className="no-style">
+                  <h1 className="text-center no-style">Dodaj Ekipo</h1>
+                </Link>
+              </div>
+            }
+          />
+          <Route path="/dodajEkipo" element={<DodajEkipo />} />
           <Route
             path="/ekipa/:idEkipe"
-            element={<DodajOsebo seznamIgralcev={igralci} />}
+            element={<DodajOsebo seznamEkip={seznamEkip} />}
           />
         </Routes>
       </div>
