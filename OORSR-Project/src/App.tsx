@@ -7,25 +7,38 @@ import { FunkcionarProps } from "./models/Funkcionar";
 import { IgralecProps } from "./models/Igralec";
 import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
 
-const direktor: FunkcionarProps = {
-  id: 1,
-  ime: "Janez",
-  priimek: "Novak",
-  letoRojstva: 1975,
-  krajRojstva: "Ljubljana",
-  vloga: "Direktor",
-  veljavnost: 2025,
-};
+const direktorji: FunkcionarProps[] = [
+  {
+    id: 1,
+    ime: "Janez",
+    priimek: "Novak",
+    letoRojstva: 1975,
+    krajRojstva: "Ljubljana",
+    vloga: "Direktor",
+    veljavnost: 2025,
+  },
+];
 
-const trener: FunkcionarProps = {
-  id: 2,
-  ime: "Marko",
-  priimek: "Kranjc",
-  letoRojstva: 1980,
-  krajRojstva: "Maribor",
-  vloga: "Trener",
-  veljavnost: 2024,
-};
+const trenerji: FunkcionarProps[] = [
+  {
+    id: 2,
+    ime: "Marko",
+    priimek: "Kranjc",
+    letoRojstva: 1980,
+    krajRojstva: "Maribor",
+    vloga: "Trener",
+    veljavnost: 2024,
+  },
+  {
+    id: 1,
+    ime: "Matic",
+    priimek: "Keglič",
+    letoRojstva: 1950,
+    krajRojstva: "Maribor",
+    vloga: "Trener",
+    veljavnost: 2024,
+  },
+];
 
 const igralci: IgralecProps[] = [
   {
@@ -299,16 +312,16 @@ const ekipe: EkipaProps[] = [
     id: 0,
     ime: "Ljubljana",
     letoUstanovitve: 1987,
-    direktor: direktor,
-    trener: trener,
+    direktorji: direktorji,
+    trenerji: trenerji,
     igralci: igralci2,
   },
   {
     id: 1,
     ime: "Maribor",
     letoUstanovitve: 1960,
-    direktor: direktor,
-    trener: trener,
+    direktorji: direktorji,
+    trenerji: trenerji,
     igralci: igralci,
   },
 ];

@@ -54,7 +54,7 @@ const DodajOsebo: React.FC<DodajOseboProps> = ({ seznamEkip }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    let newOseba: IgralecProps | FunkcionarProps;
+    let newOseba: IgralecProps | FunkcionarProps | null = null;
 
     if (osebaType === "Igralec") {
       newOseba = {
@@ -63,14 +63,41 @@ const DodajOsebo: React.FC<DodajOseboProps> = ({ seznamEkip }) => {
         teza: osebaData.teza || 0,
         poskodovan: osebaData.poskodovan || false,
       };
-    } else {
+
+      // Add the new Igralec to seznamEkip[ekipaId].igralci
+      seznamEkip[ekipaId].igralci.push(newOseba);
+    } else if (osebaType === "Direktor") {
       newOseba = {
         ...(osebaData as FunkcionarProps),
         vloga: osebaType,
         veljavnost: osebaData.veljavnost || 0,
       };
+
+      // Add the new Direktor to seznamEkip[ekipaId].direktorji
+      if (!seznamEkip[ekipaId].direktorji) {
+        seznamEkip[ekipaId].direktorji = [];
+      }
+      seznamEkip[ekipaId].direktorji.push(newOseba);
+    } else if (osebaType === "Trener") {
+      newOseba = {
+        ...(osebaData as FunkcionarProps),
+        vloga: osebaType,
+        veljavnost: osebaData.veljavnost || 0,
+      };
+
+      // Add the new Trener to seznamEkip[ekipaId].trenerji
+      if (!seznamEkip[ekipaId].trenerji) {
+        seznamEkip[ekipaId].trenerji = [];
+      }
+      seznamEkip[ekipaId].trenerji.push(newOseba);
     }
-    setOsebe((prev) => [...prev, newOseba]);
+
+    if (newOseba) {
+      // Update the local state for rendering (if necessary)
+      setOsebe((prev) => [...prev, newOseba]);
+    }
+
+    // Reset form
     setOsebaData({
       id: 0,
       ime: "",

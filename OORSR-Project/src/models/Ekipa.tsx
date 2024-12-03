@@ -6,8 +6,8 @@ export interface EkipaProps {
   id: number;
   ime: string;
   letoUstanovitve: number;
-  direktor: FunkcionarProps;
-  trener: FunkcionarProps;
+  direktorji: FunkcionarProps[];
+  trenerji: FunkcionarProps[];
   igralci: IgralecProps[];
 }
 
@@ -15,8 +15,8 @@ const Ekipa: React.FC<EkipaProps> = ({
   id,
   ime,
   letoUstanovitve,
-  direktor,
-  trener,
+  direktorji,
+  trenerji,
   igralci,
 }) => {
   return (
@@ -24,8 +24,8 @@ const Ekipa: React.FC<EkipaProps> = ({
       {id}
       {ime}
       {letoUstanovitve}
-      {direktor.ime}
-      {trener.ime}
+      {direktorji.map((direktor) => direktor.ime)}
+      {trenerji.map((trener) => trener.ime)}
       {igralci.map((igralec) => igralec.ime)}
     </>
   );
