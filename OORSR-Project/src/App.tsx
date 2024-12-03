@@ -5,6 +5,7 @@ import Telo from "./components/Layout/Telo";
 import { EkipaProps } from "./models/Ekipa";
 import { FunkcionarProps } from "./models/Funkcionar";
 import { IgralecProps } from "./models/Igralec";
+import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
 
 const direktor: FunkcionarProps = {
   id: 1,
@@ -313,11 +314,26 @@ const ekipe: EkipaProps[] = [
 ];
 
 const App: React.FC = () => {
+  // QUESTION
+  const DynamicMenu = () => {
+    const { idEkipe } = useParams<{ idEkipe: string }>();
+    const team = ekipe.find(
+      (ekipa) => ekipa.id === parseInt(idEkipe || "", 10)
+    );
+    return <Menu imeEkipe={team ? team.ime : "Ekipa ne obstaja"} />;
+  };
+  // QUESTION
+
   return (
     <>
-      <Menu imeEkipe={ekipe[0].ime} />
-      <Telo seznamEkip={ekipe} />
-      <Noga />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Menu />} />
+          <Route path="/ekipa/:idEkipe" element={<DynamicMenu />} />
+        </Routes>
+        <Telo seznamEkip={ekipe} />
+        <Noga />
+      </BrowserRouter>
     </>
   );
 };

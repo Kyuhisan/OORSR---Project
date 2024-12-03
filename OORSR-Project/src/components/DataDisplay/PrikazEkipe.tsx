@@ -1,8 +1,7 @@
 import React from "react";
 import { EkipaProps } from "../../models/Ekipa";
 import { useParams } from "react-router-dom";
-import Info from "../Opozorila/Info";
-import Opozorilo from "../Opozorila/Opozorilo";
+import PrikazIgralcev from "./PrikazIgralcev";
 
 interface PrikazEkipeProps {
   seznamEkip: EkipaProps[];
@@ -12,26 +11,30 @@ const PrikazEkipe: React.FC<PrikazEkipeProps> = ({ seznamEkip }) => {
   const { idEkipe } = useParams<{ idEkipe: string }>();
   const ekipaId = parseInt(idEkipe || "0", 10);
 
+  console.log(ekipaId);
+
   return (
     <>
-      <h5>Podatki o ekipi:</h5>
-      <table className="table table-striped">
-        <thead className="table-dark">
-          <tr>
-            <th scope="col">Ime Ekipe</th>
-            <th scope="col">Leto Ustanovitve</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{seznamEkip[ekipaId].ime}</td>
-            <td>{seznamEkip[ekipaId].letoUstanovitve}</td>
-          </tr>
-        </tbody>
-      </table>
-      <DisplayDirektor direktor={seznamEkip[ekipaId].direktor} />
-      <DisplayTrener trener={seznamEkip[ekipaId].trener} />
-      <DisplayIgralci igralci={seznamEkip[ekipaId].igralci} />
+      <div className="pb-5">
+        <h5>Podatki o ekipi:</h5>
+        <table className="table table-striped">
+          <thead className="table-dark">
+            <tr>
+              <th scope="col">Ime Ekipe</th>
+              <th scope="col">Leto Ustanovitve</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{seznamEkip[ekipaId].ime}</td>
+              <td>{seznamEkip[ekipaId].letoUstanovitve}</td>
+            </tr>
+          </tbody>
+        </table>
+        <DisplayDirektor direktor={seznamEkip[ekipaId].direktor} />
+        <DisplayTrener trener={seznamEkip[ekipaId].trener} />
+        <PrikazIgralcev igralci={seznamEkip[ekipaId].igralci} />
+      </div>
     </>
   );
 };
@@ -102,38 +105,40 @@ export function DisplayTrener({ trener }: { trener: any }) {
   );
 }
 
-export function DisplayIgralci({ igralci }: { igralci: any[] }) {
-  return (
-    <>
-      <Opozorilo igralciCount={igralci.length} />
-      <Info igralciCount={igralci.length} />
-      <h5>Igralci:</h5>
-      <table className="table table-striped">
-        <thead className="table-dark">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Ime</th>
-            <th scope="col">Priimek</th>
-            <th scope="col">Teza</th>
-            <th scope="col">Visina</th>
-            <th scope="col">Leto Rojstva</th>
-            <th scope="col">Poskodba</th>
-          </tr>
-        </thead>
-        <tbody>
-          {igralci.map((item, index) => (
-            <tr key={item.id || index}>
-              <td>{item.id}</td>
-              <td>{item.ime}</td>
-              <td>{item.priimek}</td>
-              <td>{item.teza}</td>
-              <td>{item.visina}</td>
-              <td>{item.letoRojstva}</td>
-              <td>{String(item.poskodovan)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
-  );
-}
+// export function DisplayIgralci({ igralci }: { igralci: any[] }) {
+//   return (
+//     <>
+//       <div className="pb-5">
+//         <Opozorilo igralciCount={igralci.length} />
+//         <Info igralciCount={igralci.length} />
+//         <h5>Igralci:</h5>
+//         <table className="table table-striped">
+//           <thead className="table-dark">
+//             <tr>
+//               <th scope="col">#</th>
+//               <th scope="col">Ime</th>
+//               <th scope="col">Priimek</th>
+//               <th scope="col">Teza</th>
+//               <th scope="col">Visina</th>
+//               <th scope="col">Leto Rojstva</th>
+//               <th scope="col">Poskodba</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {igralci.map((item, index) => (
+//               <tr key={item.id || index}>
+//                 <td>{item.id}</td>
+//                 <td>{item.ime}</td>
+//                 <td>{item.priimek}</td>
+//                 <td>{item.teza}</td>
+//                 <td>{item.visina}</td>
+//                 <td>{item.letoRojstva}</td>
+//                 <td>{String(item.poskodovan)}</td>
+//               </tr>
+//             ))}
+//           </tbody>
+//         </table>
+//       </div>
+//     </>
+//   );
+// }

@@ -11,37 +11,35 @@ interface PrikazEkipProps {
 const PrikazEkip: React.FC<PrikazEkipProps> = ({ seznamEkip }) => {
   return (
     <>
-      <div className="container">
-        <table className="table table-striped">
-          <thead className="table-dark">
-            <tr>
-              <th scope="col">Ime Ekipe</th>
-              <th scope="col">Leto Ustanovitve</th>
-              <th scope="col">Stevilo Igralcev</th>
+      <table className="table table-striped">
+        <thead className="table-dark">
+          <tr>
+            <th scope="col">Ime Ekipe</th>
+            <th scope="col">Leto Ustanovitve</th>
+            <th scope="col">Stevilo Igralcev</th>
+          </tr>
+        </thead>
+        <tbody>
+          {seznamEkip.map((ekipa) => (
+            <tr key={ekipa.id}>
+              <td>
+                <Link to={`/ekipa/${ekipa.id}`} className="no-style">
+                  {ekipa.ime}
+                </Link>
+              </td>
+              <td>{ekipa.letoUstanovitve}</td>
+              <td>
+                {
+                  <>
+                    <Opozorilo igralciCount={ekipa.igralci.length} />
+                    <Info igralciCount={ekipa.igralci.length} />
+                  </>
+                }
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {seznamEkip.map((ekipa) => (
-              <tr key={ekipa.id}>
-                <td>
-                  <Link to={`/ekipa/${ekipa.id}`} className="no-style">
-                    {ekipa.ime}
-                  </Link>
-                </td>
-                <td>{ekipa.letoUstanovitve}</td>
-                <td>
-                  {
-                    <>
-                      <Opozorilo igralciCount={ekipa.igralci.length} />
-                      <Info igralciCount={ekipa.igralci.length} />
-                    </>
-                  }
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 };
