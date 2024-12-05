@@ -4,6 +4,7 @@ import { IgralecProps } from "../../models/Igralec";
 import { OsebaProps } from "../../models/Oseba";
 import { EkipaProps } from "../../models/Ekipa";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 type OsebaType = "Igralec" | "Direktor" | "Trener";
 
@@ -11,13 +12,67 @@ interface State {
   osebe: (IgralecProps | FunkcionarProps)[];
 }
 
-interface DodajOseboProps {
-  seznamEkip: EkipaProps[];
+async function fetchEkipaFullData(id: number) {
+  try {
+    const ekipaResponse = await axios.get(`http://localhost:3001/ekipe/${id}`);
+    const ekipa = ekipaResponse.data;
+
+    const direktorji = ekipa.direktorji
+      ? await Promise.all(
+          ekipa.direktorji.map((id: number) =>
+            axios.get(`http://localhost:3001/direktorji/${id}`)
+          )
+        ).then((res) => res.map((r) => r.data))
+      : [];
+    const trenerji = ekipa.trenerji
+      ? await Promise.all(
+          ekipa.trenerji.map((id: number) =>
+            axios.get(`http://localhost:3001/trenerji/${id}`)
+          )
+        ).then((res) => res.map((r) => r.data))
+      : [];
+    const igralci = ekipa.igralci
+      ? await Promise.all(
+          ekipa.igralci.map((id: number) =>
+            axios.get(`http://localhost:3001/igralci/${id}`)
+          )
+        ).then((res) => res.map((r) => r.data))
+      : [];
+
+    return { ekipa, direktorji, trenerji, igralci };
+  } catch (error) {
+    console.error("Error fetching ekipa full data:", error);
+    return null;
+  }
 }
 
-const DodajOsebo: React.FC<DodajOseboProps> = ({ seznamEkip }) => {
+const DodajOsebo: React.FC = ({}) => {
   const { idEkipe } = useParams<{ idEkipe: string }>();
   const ekipaId = parseInt(idEkipe || "0", 10);
+
+  const [ekipaData, setEkipaData] = useState<any | null>(null);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchEkipaFullData(ekipaId);
+      if (data) {
+        setEkipaData(data);
+      } else {
+        setError(true);
+      }
+    };
+    fetchData();
+  }, [ekipaId]);
+
+  if (error) {
+    return <p>Error: Team not found!</p>;
+  }
+  if (!ekipaData) {
+    return <p>Loading...</p>;
+  }
+
+  const { ekipa, direktorji, trenerji, igralci } = ekipaData;
 
   const [osebaType, setOsebaType] = useState<OsebaType>("Igralec");
   const [osebaData, setOsebaData] = useState<
@@ -30,9 +85,7 @@ const DodajOsebo: React.FC<DodajOseboProps> = ({ seznamEkip }) => {
     krajRojstva: "",
   });
 
-  const [osebe, setOsebe] = useState<State["osebe"]>(
-    () => seznamEkip[ekipaId].igralci
-  );
+  const [osebe, setOsebe] = useState<State["osebe"]>(() => igralci);
 
   const [playerCount, setPlayerCount] = useState(0);
 
@@ -65,7 +118,7 @@ const DodajOsebo: React.FC<DodajOseboProps> = ({ seznamEkip }) => {
       };
 
       // Add the new Igralec to seznamEkip[ekipaId].igralci
-      seznamEkip[ekipaId].igralci.push(newOseba);
+      igralci.push(newOseba);
     } else if (osebaType === "Direktor") {
       newOseba = {
         ...(osebaData as FunkcionarProps),
@@ -74,10 +127,7 @@ const DodajOsebo: React.FC<DodajOseboProps> = ({ seznamEkip }) => {
       };
 
       // Add the new Direktor to seznamEkip[ekipaId].direktorji
-      if (!seznamEkip[ekipaId].direktorji) {
-        seznamEkip[ekipaId].direktorji = [];
-      }
-      seznamEkip[ekipaId].direktorji.push(newOseba);
+      direktorji.push(newOseba);
     } else if (osebaType === "Trener") {
       newOseba = {
         ...(osebaData as FunkcionarProps),
@@ -86,10 +136,7 @@ const DodajOsebo: React.FC<DodajOseboProps> = ({ seznamEkip }) => {
       };
 
       // Add the new Trener to seznamEkip[ekipaId].trenerji
-      if (!seznamEkip[ekipaId].trenerji) {
-        seznamEkip[ekipaId].trenerji = [];
-      }
-      seznamEkip[ekipaId].trenerji.push(newOseba);
+      trenerji.push(newOseba);
     }
 
     if (newOseba) {
