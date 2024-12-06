@@ -50,6 +50,7 @@ const DodajOsebo: React.FC = () => {
   const ekipaId = parseInt(idEkipe || "0", 10);
 
   const [ekipaData, setEkipaData] = useState<any | null>(null);
+
   const [osebaType, setOsebaType] = useState<OsebaType>("Igralec");
   const [osebaData, setOsebaData] = useState<
     OsebaProps & Partial<IgralecProps & FunkcionarProps>
@@ -72,10 +73,11 @@ const DodajOsebo: React.FC = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [ekipaId]);
 
   const playerCount = osebe.length;
 
+  // Updates input fields in real time
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -85,7 +87,6 @@ const DodajOsebo: React.FC = () => {
       [name]: type === "number" ? +value : value,
     }));
   };
-
   const handleDropdownChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setOsebaData((prev) => ({
@@ -159,7 +160,7 @@ const DodajOsebo: React.FC = () => {
         id: 0,
         ime: "",
         priimek: "",
-        letoRojstva: 2000,
+        letoRojstva: 0,
         krajRojstva: "",
       });
     } catch (error) {

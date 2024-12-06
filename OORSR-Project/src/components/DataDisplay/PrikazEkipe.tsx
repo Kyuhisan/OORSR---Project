@@ -4,7 +4,6 @@ import axios from "axios";
 import PrikazDirektorjev from "./PrikazDirektorjev";
 import PrikazIgralcev from "./PrikazIgralcev";
 import PrikazTrenerjev from "./PrikazTrenerjev";
-import { EkipaProps } from "../../models/Ekipa";
 
 async function fetchEkipaFullData(id: number) {
   try {
@@ -40,11 +39,7 @@ async function fetchEkipaFullData(id: number) {
   }
 }
 
-interface PrikazEkipeProps {
-  seznamEkip: EkipaProps[];
-}
-
-const PrikazEkipe: React.FC<PrikazEkipeProps> = ({ seznamEkip }) => {
+const PrikazEkipe: React.FC = ({}) => {
   const { idEkipe } = useParams<{ idEkipe: string }>();
   const ekipaId = parseInt(idEkipe || "0", 10);
 

@@ -4,100 +4,20 @@
       "id": "0",
       "ime": "Olimpija",
       "letoUstanovitve": 1977,
-      "direktorji": [
-        0,
-        4
-      ],
-      "trenerji": [
-        0
-      ],
-      "igralci": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        40,
-        41,
-        42,
-        43,
-        44
-      ]
+      "direktorji": [0, 4],
+      "trenerji": [0],
+      "igralci": [0, 1, 2, 3, 4, 5, 6, 7, 8, 40, 41, 42, 43, 44, 48]
     },
     {
       "id": "1",
       "ime": "Maribor",
       "letoUstanovitve": 1960,
-      "direktorji": [
-        1
-      ],
-      "trenerji": [
-        1
-      ],
+      "direktorji": [1],
+      "trenerji": [1],
       "igralci": [
-        20,
-        21,
-        22,
-        23,
-        24,
-        25,
-        26,
-        27,
-        28,
-        29,
-        30,
-        31,
-        32,
-        33,
-        34,
-        35,
-        36,
-        37,
-        38,
-        39
+        20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37,
+        38, 39
       ]
-    },
-    {
-      "id": "2",
-      "ime": "test",
-      "letoUstanovitve": 2024,
-      "direktorji": [],
-      "trenerji": [],
-      "igralci": []
-    },
-    {
-      "id": "3",
-      "ime": "Matic",
-      "letoUstanovitve": 2024,
-      "direktorji": [],
-      "trenerji": [],
-      "igralci": []
-    },
-    {
-      "id": "4",
-      "ime": "Matic",
-      "letoUstanovitve": 2024,
-      "direktorji": [
-        2
-      ],
-      "trenerji": [
-        1
-      ],
-      "igralci": [
-        12
-      ]
-    },
-    {
-      "id": "5",
-      "ime": "Matic",
-      "letoUstanovitve": 2024,
-      "direktorji": [],
-      "trenerji": [],
-      "igralci": []
     }
   ],
   "direktorji": [
@@ -134,15 +54,6 @@
       "priimek": "Mikulič",
       "letoRojstva": 1970,
       "krajRojstva": "Maribor",
-      "veljavnost": true,
-      "vloga": "Direktor"
-    },
-    {
-      "id": "4",
-      "ime": "test",
-      "priimek": "test",
-      "letoRojstva": 1999,
-      "krajRojstva": "test",
       "veljavnost": true,
       "vloga": "Direktor"
     }
@@ -566,56 +477,6 @@
       "krajRojstva": "Ljubljana",
       "visina": 186,
       "teza": 82,
-      "poskodovan": false
-    },
-    {
-      "id": "40",
-      "ime": "Matic",
-      "priimek": "test",
-      "letoRojstva": 0,
-      "krajRojstva": "",
-      "visina": 0,
-      "teza": 0,
-      "poskodovan": false
-    },
-    {
-      "id": "41",
-      "ime": "",
-      "priimek": "",
-      "letoRojstva": 0,
-      "krajRojstva": "",
-      "visina": 0,
-      "teza": 0,
-      "poskodovan": false
-    },
-    {
-      "id": "42",
-      "ime": "",
-      "priimek": "",
-      "letoRojstva": 2000,
-      "krajRojstva": "",
-      "visina": 0,
-      "teza": 0,
-      "poskodovan": false
-    },
-    {
-      "id": "43",
-      "ime": "Matic",
-      "priimek": "test",
-      "letoRojstva": 0,
-      "krajRojstva": "",
-      "visina": 0,
-      "teza": 0,
-      "poskodovan": false
-    },
-    {
-      "id": 44,
-      "ime": "test",
-      "priimek": "test",
-      "letoRojstva": 2000,
-      "krajRojstva": "test",
-      "visina": 213,
-      "teza": 213,
       "poskodovan": false
     }
   ]

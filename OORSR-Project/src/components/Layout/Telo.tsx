@@ -60,7 +60,7 @@ const Telo: React.FC<TeloProps> = ({ seznamEkip }) => {
             path="/ekipa/:idEkipe"
             element={
               <div className="container">
-                <PrikazEkipe seznamEkip={ekipe} />
+                <PrikazEkipe />
               </div>
             }
           />
