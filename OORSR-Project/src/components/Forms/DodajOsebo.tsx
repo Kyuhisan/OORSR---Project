@@ -45,7 +45,9 @@ async function fetchEkipaFullData(id: number) {
   }
 }
 
-const DodajOsebo: React.FC = () => {
+const DodajOsebo: React.FC<{ onOsebaAdded: () => void }> = ({
+  onOsebaAdded,
+}) => {
   const { idEkipe } = useParams<{ idEkipe: string }>();
   const ekipaId = parseInt(idEkipe || "0", 10);
 
@@ -163,6 +165,8 @@ const DodajOsebo: React.FC = () => {
         letoRojstva: 0,
         krajRojstva: "",
       });
+
+      onOsebaAdded();
     } catch (error) {
       console.error("Error adding person to ekipa:", error);
     }

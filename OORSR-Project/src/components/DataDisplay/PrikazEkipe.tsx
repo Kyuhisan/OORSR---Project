@@ -5,8 +5,13 @@ import PrikazDirektorjev from "./PrikazDirektorjev";
 import PrikazIgralcev from "./PrikazIgralcev";
 import PrikazTrenerjev from "./PrikazTrenerjev";
 
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function fetchEkipaFullData(id: number) {
   try {
+    await delay(500);
     const ekipaResponse = await axios.get(`http://localhost:3001/ekipe/${id}`);
     const ekipa = ekipaResponse.data;
 
@@ -49,6 +54,7 @@ const PrikazEkipe: React.FC = ({}) => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchEkipaFullData(ekipaId);
+
       if (data) {
         setEkipaData(data);
       } else {

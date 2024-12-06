@@ -14,6 +14,7 @@ interface TeloProps {
 const Telo: React.FC<TeloProps> = ({ seznamEkip }) => {
   const [ekipe, setEkipe] = useState<EkipaProps[]>(seznamEkip);
   const [igralci, setIgralci] = useState<IgralecProps[][]>([]);
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     if (seznamEkip.length > 0) {
@@ -25,6 +26,10 @@ const Telo: React.FC<TeloProps> = ({ seznamEkip }) => {
   // Handler to add a new team
   const addEkipa = (newEkipa: EkipaProps) => {
     setEkipe((prevEkipe) => [...prevEkipe, newEkipa]);
+  };
+
+  const reloadPrikazEkipe = () => {
+    setReloadKey((prev) => prev + 1);
   };
 
   return (
@@ -45,7 +50,10 @@ const Telo: React.FC<TeloProps> = ({ seznamEkip }) => {
               </div>
             }
           />
-          <Route path="/ekipa/:idEkipe" element={<DodajOsebo />} />
+          <Route
+            path="/ekipa/:idEkipe"
+            element={<DodajOsebo onOsebaAdded={reloadPrikazEkipe} />}
+          />
         </Routes>
       </div>
 
@@ -60,7 +68,7 @@ const Telo: React.FC<TeloProps> = ({ seznamEkip }) => {
             path="/ekipa/:idEkipe"
             element={
               <div className="container">
-                <PrikazEkipe />
+                <PrikazEkipe key={reloadKey} />
               </div>
             }
           />
