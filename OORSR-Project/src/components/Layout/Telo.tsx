@@ -6,10 +6,12 @@ import DodajEkipo from "../Forms/DodajEkipo";
 import PrikazEkipe from "../DataDisplay/PrikazEkipe";
 
 const Telo: React.FC = ({}) => {
+  
   return (
     <div className="row px-4">
       <div className="col-3">
-        <Routes>
+        <Routes>          
+          <Route path="/dodajEkipo" element={<DodajEkipo />} />
           <Route
             path="/"
             element={
@@ -20,13 +22,14 @@ const Telo: React.FC = ({}) => {
               </div>
             }
           />
-          <Route path="/dodajEkipo" element={<DodajEkipo />} />
           <Route path="/ekipa/:idEkipe" element={<DodajOsebo />} />
         </Routes>
       </div>
+      
       <div className="col-9">
         <Routes>
           <Route path="/" element={<SeznamEkip />} />
+          <Route path="/dodajEkipo" element={<SeznamEkip />} />
           <Route
             path="/ekipa/:idEkipe"
             element={

@@ -23,6 +23,7 @@ const PrikazIgralcev: React.FC<PrikazIgralcevProps> = ({ igralci }) => {
               <th scope="col">Teza</th>
               <th scope="col">Visina</th>
               <th scope="col">Leto Rojstva</th>
+              <th scope="col">Kraj Rojstva</th>
               <th scope="col">Poskodba</th>
             </tr>
           </thead>
@@ -35,6 +36,7 @@ const PrikazIgralcev: React.FC<PrikazIgralcevProps> = ({ igralci }) => {
                 <td>{item.teza}</td>
                 <td>{item.visina}</td>
                 <td>{item.letoRojstva}</td>
+                <td>{item.krajRojstva}</td>
                 <td>{String(item.poskodovan)}</td>
               </tr>
             ))}

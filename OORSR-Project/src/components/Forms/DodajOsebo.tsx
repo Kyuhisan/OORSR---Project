@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { FunkcionarProps } from "../../models/Funkcionar";
 import { IgralecProps } from "../../models/Igralec";
 import { OsebaProps } from "../../models/Oseba";
-import { EkipaProps } from "../../models/Ekipa";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -46,38 +45,15 @@ async function fetchEkipaFullData(id: number) {
   }
 }
 
-const DodajOsebo: React.FC = ({}) => {
+const DodajOsebo: React.FC = () => {
   const { idEkipe } = useParams<{ idEkipe: string }>();
   const ekipaId = parseInt(idEkipe || "0", 10);
 
   const [ekipaData, setEkipaData] = useState<any | null>(null);
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchEkipaFullData(ekipaId);
-      if (data) {
-        setEkipaData(data);
-      } else {
-        setError(true);
-      }
-    };
-    fetchData();
-  }, [ekipaId]);
-
-  if (error) {
-    return <p>Error: Team not found!</p>;
-  }
-  if (!ekipaData) {
-    return <p>Loading...</p>;
-  }
-
-  const { ekipa, direktorji, trenerji, igralci } = ekipaData;
-
   const [osebaType, setOsebaType] = useState<OsebaType>("Igralec");
-  const [osebaData, setOsebaData] = useState<
-    OsebaProps & Partial<IgralecProps & FunkcionarProps>
-  >({
+  const [osebaData, setOsebaData] = useState<OsebaProps & Partial<IgralecProps & FunkcionarProps>>({
     id: 0,
     ime: "",
     priimek: "",
@@ -85,18 +61,27 @@ const DodajOsebo: React.FC = ({}) => {
     krajRojstva: "",
   });
 
-  const [osebe, setOsebe] = useState<State["osebe"]>(() => igralci);
-
-  const [playerCount, setPlayerCount] = useState(0);
+  const [osebe, setOsebe] = useState<State["osebe"]>([]);
 
   useEffect(() => {
-    const count = osebe.filter((o) => "visina" in o && "teza" in o).length;
-    setPlayerCount(count);
-  }, [osebe]);
+    const fetchData = async () => {
+      const data = await fetchEkipaFullData(ekipaId);
+      if (data) {
+        setEkipaData(data);
+        setOsebe(data.igralci || []);
+      } else {
+        setError(true);
+      }
+    };
+    fetchData();
+  }, [ekipaId]);
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  if (error) return <p>Error: Team not found!</p>;
+  if (!ekipaData) return <p>Loading...</p>;
+
+  const playerCount = osebe.filter((o) => "visina" in o && "teza" in o).length;
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     setOsebaData((prev) => ({
       ...prev,
@@ -104,56 +89,96 @@ const DodajOsebo: React.FC = ({}) => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    let newOseba: IgralecProps | FunkcionarProps | null = null;
-
-    if (osebaType === "Igralec") {
-      newOseba = {
-        ...(osebaData as IgralecProps),
-        visina: osebaData.visina || 0,
-        teza: osebaData.teza || 0,
-        poskodovan: osebaData.poskodovan || false,
-      };
-
-      // Add the new Igralec to seznamEkip[ekipaId].igralci
-      igralci.push(newOseba);
-    } else if (osebaType === "Direktor") {
-      newOseba = {
-        ...(osebaData as FunkcionarProps),
-        vloga: osebaType,
-        veljavnost: osebaData.veljavnost || 0,
-      };
-
-      // Add the new Direktor to seznamEkip[ekipaId].direktorji
-      direktorji.push(newOseba);
-    } else if (osebaType === "Trener") {
-      newOseba = {
-        ...(osebaData as FunkcionarProps),
-        vloga: osebaType,
-        veljavnost: osebaData.veljavnost || 0,
-      };
-
-      // Add the new Trener to seznamEkip[ekipaId].trenerji
-      trenerji.push(newOseba);
-    }
-
-    if (newOseba) {
-      // Update the local state for rendering (if necessary)
-      setOsebe((prev) => [...prev, newOseba]);
-    }
-
-    // Reset form
-    setOsebaData({
-      id: 0,
-      ime: "",
-      priimek: "",
-      letoRojstva: 2000,
-      krajRojstva: "",
-    });
+  const handleDropdownChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setOsebaData((prev) => ({
+      ...prev,
+      [name]: value === "true",
+    }));
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      let newOseba: IgralecProps | FunkcionarProps;
+      let endpoint = "";
+      let ekipaField = "";
+
+      if (osebaType === "Igralec") {
+        endpoint = `http://localhost:3001/igralci`;
+        ekipaField = "igralci";
+      } else {
+        endpoint =
+          osebaType === "Direktor"
+            ? `http://localhost:3001/direktorji`
+            : `http://localhost:3001/trenerji`;
+        ekipaField = osebaType === "Direktor" ? "direktorji" : "trenerji";
+      }
+
+      const response = await axios.get(endpoint);
+      const existingEntries = response.data;
+      const maxId = existingEntries.reduce(
+        (max: number, entry: { id: number }) => Math.max(max, entry.id),
+        0
+      );
+
+      const newId = maxId + 1;
+
+      if (osebaType === "Igralec") {
+        newOseba = {
+          ...(osebaData as IgralecProps),
+          id: newId,
+          visina: osebaData.visina || 0,
+          teza: osebaData.teza || 0,
+          poskodovan: osebaData.poskodovan || false,
+        };
+      } else {
+        newOseba = {
+          ...(osebaData as FunkcionarProps),
+          id: newId,
+          vloga: osebaType,
+          veljavnost: osebaData.veljavnost || false,
+        };
+      }
+
+      console.log("Posting to endpoint:", endpoint);
+      console.log("Payload:", newOseba);
+
+      // Add the new person
+      const createdResponse = await axios.post(endpoint, newOseba);
+      const createdOseba = createdResponse.data;
+
+      // Update the ekipa data to append the new person's ID
+      const updatedEkipa = {
+        ...ekipaData.ekipa,
+        [ekipaField]: [...ekipaData.ekipa[ekipaField], createdOseba.id],
+      };
+
+      await axios.put(`http://localhost:3001/ekipe/${ekipaId}`, updatedEkipa);
+
+      // Update the UI with the new person added
+      setOsebe((prev) => [...prev, createdOseba]);
+      setEkipaData((prev: any) => ({
+        ...prev,
+        ekipa: updatedEkipa,
+      }));
+
+      // Reset the form
+      setOsebaData({
+        id: 0,
+        ime: "",
+        priimek: "",
+        letoRojstva: 2000,
+        krajRojstva: "",
+      });
+    } catch (error) {
+      console.error("Error adding person to ekipa:", error);
+      alert("An error occurred while adding the person. Please try again.");
+    }
+  };
+  
+   
   return (
     <div className="container bg-dark text-light rounded pt-4">
       <h1 className="text-center">Dodaj Osebo</h1>
@@ -192,21 +217,6 @@ const DodajOsebo: React.FC = ({}) => {
         </div>
       </div>
       <form onSubmit={handleSubmit} className="bg-dark p-4 rounded shadow">
-        <div className="row mb-3">
-          <label htmlFor="id" className="col-sm-3 col-form-label">
-            ID:
-          </label>
-          <div className="col-sm-9">
-            <input
-              id="id"
-              name="id"
-              type="number"
-              className="form-control"
-              value={osebaData.id}
-              onChange={handleInputChange}
-            />
-          </div>
-        </div>
         <div className="row mb-3">
           <label htmlFor="ime" className="col-sm-3 col-form-label">
             Ime:
@@ -303,7 +313,7 @@ const DodajOsebo: React.FC = ({}) => {
               <label htmlFor="poskodovan" className="col-sm-4 col-form-label">
                 Poškodovan:
               </label>
-              <div className="col-sm-6 d-flex align-items-center">
+              <div className="col-sm-8 d-flex align-items-center">
                 <input
                   id="poskodovan"
                   name="poskodovan"
@@ -343,14 +353,16 @@ const DodajOsebo: React.FC = ({}) => {
                 Veljavnost:
               </label>
               <div className="col-sm-8">
-                <input
+                <select
                   id="veljavnost"
                   name="veljavnost"
-                  type="number"
-                  className="form-control"
-                  value={osebaData.veljavnost || 0}
-                  onChange={handleInputChange}
-                />
+                  className="form-select"
+                  value={osebaData.veljavnost ? "true" : "false"}
+                  onChange={handleDropdownChange}
+                >
+                  <option value="true">True</option>
+                  <option value="false">False</option>
+                </select>
               </div>
             </div>
           </>

@@ -10,7 +10,7 @@ const PrikazDirektorjev: React.FC<PrikazDirektorjevProps> = ({
 }) => {
   return (
     <>
-      <div className="pb-5">
+      <div>
         <h5>Direktorji:</h5>
         <table className="table table-striped">
           <thead className="table-dark">
@@ -32,7 +32,7 @@ const PrikazDirektorjev: React.FC<PrikazDirektorjevProps> = ({
                 <td>{item.priimek}</td>
                 <td>{item.krajRojstva}</td>
                 <td>{item.letoRojstva}</td>
-                <td>{item.veljavnost}</td>
+                <td>{String(item.veljavnost)}</td>
                 <td>{item.vloga}</td>
               </tr>
             ))}

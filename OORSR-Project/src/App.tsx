@@ -5,6 +5,8 @@ import Telo from "./components/Layout/Telo";
 import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
 import axios from "axios";
 
+//npx json-server --watch db.json --port 3001
+
 async function getEkipaIme(id: number) {
   try {
     const ekipaResponse = await axios.get(`http://localhost:3001/ekipe/${id}`);
@@ -40,6 +42,7 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Menu />} />
+          <Route path="/dodajEkipo" element={<Menu />} />
           <Route path="/ekipa/:idEkipe" element={<DynamicMenu />} />
         </Routes>
         <Telo />

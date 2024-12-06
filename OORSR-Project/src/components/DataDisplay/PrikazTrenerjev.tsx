@@ -8,7 +8,7 @@ interface PrikazTrenerjevProps {
 const PrikazTrenerjev: React.FC<PrikazTrenerjevProps> = ({ trenerji }) => {
   return (
     <>
-      <div className="pb-5">
+      <div>
         <h5>Trenerji:</h5>
         <table className="table table-striped">
           <thead className="table-dark">
@@ -30,7 +30,7 @@ const PrikazTrenerjev: React.FC<PrikazTrenerjevProps> = ({ trenerji }) => {
                 <td>{item.priimek}</td>
                 <td>{item.krajRojstva}</td>
                 <td>{item.letoRojstva}</td>
-                <td>{item.veljavnost}</td>
+                <td>{String(item.veljavnost)}</td>
                 <td>{item.vloga}</td>
               </tr>
             ))}

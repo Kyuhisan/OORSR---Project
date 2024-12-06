@@ -3,7 +3,7 @@ import { OsebaProps } from ".././models/Oseba";
 
 export interface FunkcionarProps extends OsebaProps {
   vloga: string;
-  veljavnost: number;
+  veljavnost: boolean;
 }
 
 const Funkcionar: React.FC<FunkcionarProps> = ({
