@@ -5,20 +5,25 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { EkipaProps } from "../../models/Ekipa";
 
-async function getEkipe() {
-  const ekipaResponse = await axios.get(`http://localhost:3001/ekipe/`);
-  const ekipe = ekipaResponse.data;
-  return ekipe;
+// async function getEkipe() {
+//   const ekipaResponse = await axios.get(`http://localhost:3001/ekipe/`);
+//   const ekipe = ekipaResponse.data;
+//   return ekipe;
+// }
+
+interface SeznamEkipProps {
+  seznamEkip: EkipaProps[];
 }
 
-const SeznamEkip: React.FC = () => {
-  const [ekipe, setEkipe] = useState<EkipaProps[]>([]);
+const SeznamEkip: React.FC<SeznamEkipProps> = ({ seznamEkip }) => {
+  const [ekipe, setEkipe] = useState<EkipaProps[]>(seznamEkip);
 
   useEffect(() => {
-    getEkipe()
-      .then((data) => setEkipe(data))
-      .catch((error) => console.error("Error fetching ekipe:", error));
-  }, []);
+    setEkipe(seznamEkip);
+    // getEkipe()
+    //   .then((data) => setEkipe(data))
+    //   .catch((error) => console.error("Error fetching ekipe:", error));
+  }, [seznamEkip]);
 
   return (
     <>

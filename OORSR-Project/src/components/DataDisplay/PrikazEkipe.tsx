@@ -4,6 +4,7 @@ import axios from "axios";
 import PrikazDirektorjev from "./PrikazDirektorjev";
 import PrikazIgralcev from "./PrikazIgralcev";
 import PrikazTrenerjev from "./PrikazTrenerjev";
+import { EkipaProps } from "../../models/Ekipa";
 
 async function fetchEkipaFullData(id: number) {
   try {
@@ -39,7 +40,11 @@ async function fetchEkipaFullData(id: number) {
   }
 }
 
-const PrikazEkipe: React.FC = () => {
+interface PrikazEkipeProps {
+  seznamEkip: EkipaProps[];
+}
+
+const PrikazEkipe: React.FC<PrikazEkipeProps> = ({ seznamEkip }) => {
   const { idEkipe } = useParams<{ idEkipe: string }>();
   const ekipaId = parseInt(idEkipe || "0", 10);
 
@@ -61,11 +66,18 @@ const PrikazEkipe: React.FC = () => {
   if (error) {
     return <p>Error: Team not found!</p>;
   }
+
   if (!ekipaData) {
     return <p>Loading...</p>;
   }
 
   const { ekipa, direktorji, trenerji, igralci } = ekipaData;
+
+  const podkomponente = [
+    <PrikazDirektorjev direktorji={direktorji} />,
+    <PrikazTrenerjev trenerji={trenerji} />,
+    <PrikazIgralcev igralci={igralci} />,
+  ];
 
   return (
     <>
@@ -85,9 +97,9 @@ const PrikazEkipe: React.FC = () => {
             </tr>
           </tbody>
         </table>
-        <PrikazDirektorjev direktorji={direktorji} />
-        <PrikazTrenerjev trenerji={trenerji} />
-        <PrikazIgralcev igralci={igralci} />
+        {podkomponente.map((komponenta, index) => (
+          <div key={komponenta.props.id || index}>{komponenta}</div>
+        ))}
       </div>
     </>
   );

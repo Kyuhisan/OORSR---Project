@@ -50,10 +50,10 @@ const DodajOsebo: React.FC = () => {
   const ekipaId = parseInt(idEkipe || "0", 10);
 
   const [ekipaData, setEkipaData] = useState<any | null>(null);
-  const [error, setError] = useState(false);
-
   const [osebaType, setOsebaType] = useState<OsebaType>("Igralec");
-  const [osebaData, setOsebaData] = useState<OsebaProps & Partial<IgralecProps & FunkcionarProps>>({
+  const [osebaData, setOsebaData] = useState<
+    OsebaProps & Partial<IgralecProps & FunkcionarProps>
+  >({
     id: 0,
     ime: "",
     priimek: "",
@@ -69,19 +69,16 @@ const DodajOsebo: React.FC = () => {
       if (data) {
         setEkipaData(data);
         setOsebe(data.igralci || []);
-      } else {
-        setError(true);
       }
     };
     fetchData();
-  }, [ekipaId]);
+  }, []);
 
-  if (error) return <p>Error: Team not found!</p>;
-  if (!ekipaData) return <p>Loading...</p>;
+  const playerCount = osebe.length;
 
-  const playerCount = osebe.filter((o) => "visina" in o && "teza" in o).length;
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value, type } = e.target;
     setOsebaData((prev) => ({
       ...prev,
@@ -142,14 +139,9 @@ const DodajOsebo: React.FC = () => {
         };
       }
 
-      console.log("Posting to endpoint:", endpoint);
-      console.log("Payload:", newOseba);
-
-      // Add the new person
       const createdResponse = await axios.post(endpoint, newOseba);
       const createdOseba = createdResponse.data;
 
-      // Update the ekipa data to append the new person's ID
       const updatedEkipa = {
         ...ekipaData.ekipa,
         [ekipaField]: [...ekipaData.ekipa[ekipaField], createdOseba.id],
@@ -157,14 +149,12 @@ const DodajOsebo: React.FC = () => {
 
       await axios.put(`http://localhost:3001/ekipe/${ekipaId}`, updatedEkipa);
 
-      // Update the UI with the new person added
       setOsebe((prev) => [...prev, createdOseba]);
       setEkipaData((prev: any) => ({
         ...prev,
         ekipa: updatedEkipa,
       }));
 
-      // Reset the form
       setOsebaData({
         id: 0,
         ime: "",
@@ -174,11 +164,9 @@ const DodajOsebo: React.FC = () => {
       });
     } catch (error) {
       console.error("Error adding person to ekipa:", error);
-      alert("An error occurred while adding the person. Please try again.");
     }
   };
-  
-   
+
   return (
     <div className="container bg-dark text-light rounded pt-4">
       <h1 className="text-center">Dodaj Osebo</h1>
